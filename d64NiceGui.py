@@ -107,7 +107,7 @@ action_column = [
      ],
 
 
-    [sg.Checkbox('Overwrite existing files', default=True, key="-OVERWRITE-")],
+    [sg.Checkbox('Overwrite existing D64-files', default=True, key="-OVERWRITE-")],
 
 
     [
@@ -156,7 +156,7 @@ def niceexist():
   nicefile= os.path.join(os.getcwd(),"d64nice.exe")
 
   message="Sorry, but it seems, that the D64nice.exe is missing...\n"
-  message=message+"Please check the following path for the file:\n"
+  message=message+"Please copy the d64nice.exe to the following folder:\n"
   message=message+nicefile
   message=message+"\nyou can download d64nice at https://csdb.dk/release/?id=182677"
   message=message+"\n(for newer releases please use the search for 'd64nice' on csdb)"
