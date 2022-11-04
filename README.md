@@ -6,7 +6,7 @@ D64niceGui is an Windows UI für the commandline tool, which makes it easier to 
 
 - Batch calls
 - Error handling
-- Definition of Postfix or Prefix für files
+- Definition of Postfix or Prefix for files
 - also it brings some color to your life :-)
 
 The tool itself is a python beginners project, if you find bugs, feel free to correct them :-)
