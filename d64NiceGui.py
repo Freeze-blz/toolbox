@@ -158,7 +158,7 @@ def niceexist():
   message="Sorry, but it seems, that the D64nice.exe is missing...\n"
   message=message+"Please copy the d64nice.exe to the following folder:\n"
   message=message+nicefile
-  message=message+"\nyou can download d64nice at https://csdb.dk/release/?id=182677"
+  message=message+"\nYou can download d64nice at https://csdb.dk/release/?id=182677"
   message=message+"\n(for newer releases please use the search for 'd64nice' on csdb)"
 
   exist = exists(nicefile)
