@@ -34,11 +34,12 @@ How it works:
 Hint:
 - the last used input folder is saved automatically
 - the settings for output can be saved manually by using the save buttons
-
-- if you start for the first time, a d64niceGUI.JSON file is created, where the settings are stored
 - on the first start, the current folder is used for input and output
-- if the input folder is also the output folder, after processing the files the file list will be updated and the previous selection is removed
-- if the output folder is not the input folder, the selection will be kept
+  - if the input folder is also the output folder, after processing the files the file list will be updated and the previous selection is removed
+  - if the output folder is not the input folder, the selection will be kept
+- settings will be stored in the d64niceGUI.json file
+
+- a logfile is also created where you can get further informations. Please provide this file with any bug report!
 
 HAVE FUN!
 
