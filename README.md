@@ -41,6 +41,16 @@ Hint:
 
 - a logfile is also created where you can get further informations. Please provide this file with any bug report!
 
+## Development
+
+```bash
+git clone --recursive https://github.com/Freeze-blz/toolbox
+cd toolbox
+python -m venv ./venv
+source venv/bin/activate (Windows: venv/Scripts/activate.ps1)
+pip install -r requirements.txt
+```
+
 HAVE FUN!
 
 
