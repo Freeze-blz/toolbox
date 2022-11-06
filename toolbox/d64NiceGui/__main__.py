@@ -24,7 +24,7 @@
 # Import needed modules - if not installed you have to pip PySimpleGui and EasyProcess
 
 import logging
-import PySimpleGUI as sg
+import PySimpleGUI as Sg
 import os.path
 import time
 
@@ -47,43 +47,43 @@ print("D64nicerGUI brought to you by BLAZON!")
 # reading configuration
 configfile = os.getcwd() + "d64nicerGUI.json"
 
-sg.user_settings_filename("D64nicerGUI.json", os.getcwd())
-sg.user_settings_filename("D64nicerGUI.json")
+Sg.user_settings_filename("D64nicerGUI.json", os.getcwd())
+Sg.user_settings_filename("D64nicerGUI.json")
 
-path = sg.user_settings_get_entry("lastpath", os.getcwd())
+path = Sg.user_settings_get_entry("lastpath", os.getcwd())
 path = path.replace("/", "\\")
 lastfolder = path
 
-folder = sg.user_settings_get_entry("outfolder", os.getcwd())
+folder = Sg.user_settings_get_entry("outfolder", os.getcwd())
 folder = folder.replace("/", "\\")
 
-nicedprefix = sg.user_settings_get_entry("nicedprefix", "D64niced_")
-nicedpostfix = sg.user_settings_get_entry("nicedpostfix", "")
+nicedprefix = Sg.user_settings_get_entry("nicedprefix", "D64niced_")
+nicedpostfix = Sg.user_settings_get_entry("nicedpostfix", "")
 
 # base definition of window layout
-sg.theme("DarkBlue4")
+Sg.theme("DarkBlue4")
 logo = b"iVBORw0KGgoAAAANSUhEUgAAAUEAAABOCAYAAAC+L6RQAAAEAElEQVR4nO3d0ZKbMBBEUZza//9l8mATEy/YgKWZ1vQ9T6nKbiwkTSMQONMEAAAAAAAAAAAAAAAAAAAAAAXdshtQzTzP8/Ln2+1G/wLifnr9w+swmKaagfAaeK/HDEBfkxB0KH6HYwQcnQ5BhzBwOEYAd29D0CEMHI4RwL5/IUgYAHD0J7sBAJCJEARgjRAEYI0QBGCt28PSZ83zPB954LjiQ9cA8qSF4NXd6OX3ljD8Zlc7IlCVdt3PvNWy1TdKx6Lm6lza6tMrbx+1mstRY9zjDaurfRAegq0OvGUY4re94nz39/isV785vKb6ydU+CA3BHhOAMIyz9eUQ9PexYovup9e6cHT0y0xk7gl+az3oFGZ/nHyOye4XwvDuXT+U2x1eNliy2+Fifrg9ZLcn2rtjzg7ANaW2ZNrqh3IhOE0EYYZ1GGa3RYFi6Ci2KcNrP5QMwWkiCLM49fvecSqHjXLbIq37If2eYM+CUSjI7M/PoNDvLVwJjCu/E91XKuOjcishLQSjBkFlwN1E35BvWTRXH9o/04bsOUldPPsg5XI448wX+XmIpTC+Zx5CVwkfhX5TEB6CKhMA2NLz1U3FuU8QFt4YecVg16QwrkfaoBiAuAsNweyJoFAw0OX6BR7udWGzEkQ9oxRvxeCsxC4ERykcxIrYEYam9OcEcc43RVdpRUL4oBXLEBzpGSmKvT+3HeEtI9VEa5YhOALCbx99g5YIQTEUeKxvVoGMVQ2EoAgK6hj6Ca3Z7Q4Di97PBbreYxsNIYhhsApED1wOJ6Owc7i+HYLfWAliCGonC7X24DpWgkkiioiVzLaIVSB9Pw5WgpDHqgs9EYKwEnUvkOAeByEIaaphwuVuHYQgbLAjjC2EIGSprgKPGr39LghBWGAViD2WIchk1zfCKop5VINlCMJL5ipwhDB3RwhCDsGBSHYhyCWMF4Vvihkh1J3rwi4EoW2EwEAthCDKiroXWGU16MoqBJ2X/COoHhTVj29UfItMR3uTnjDuL3pH+MjnTZP3/+qmymYlyMTT5rRKUjtW99oIXQmqDT5qynou8OhqcJqetZAdQNmfr8DiclhtoJdLIk4Kdy37YRnrrDE/O66ZYahWF2uRbSsfgsoDjfYUTixXTnDrn4+Ys1ttjK4VlbEqfU9QOQC5QX6nUAitqY8tVyH/KxuCypNwoV4suE51bAnA30qGoOLk26NaLBGqF+Mytgrju7Sjep9fUS4EFSbcWc5BWN38kDm+S/gRgNvKhKDKGfcbo7f/DLeCzApCVn+fDb87XCU4Xh+VYOLWsw7C3uPLPDpuqBCsEnjv7D03dnYy7/WVwsog+/Mz9T7ZEX4AAAAAAAAAAAAAAAAAAABPfwH9v9xy0Ce9kgAAAABJRU5ErkJggg=="
 font = ("Verdana", 8)
 
 # file list definition
 file_list_column = [
     [
-        sg.Text("D64 Folder"),
-        sg.Input(
+        Sg.Text("D64 Folder"),
+        Sg.Input(
             path,
             size=(40, 1),
             enable_events=True,
             key="-FOLDER-",
         ),
-        sg.FolderBrowse(
+        Sg.FolderBrowse(
             "🗁",
             enable_events=True,
             tooltip="Select source folder for reading D64 files...",
-            font=("Arial,14"),
+            font="Arial,14",
         ),
     ],
     [
-        sg.Listbox(
+        Sg.Listbox(
             values=[],
             enable_events=True,
             select_mode="extended",
@@ -91,50 +91,50 @@ file_list_column = [
             key="-FILE LIST-",
         )
     ],
-    [sg.Text("🛈 You can select multiple files using CTRL or SHIFT ;-)", font=font)],
+    [Sg.Text("🛈 You can select multiple files using CTRL or SHIFT ;-)", font=font)],
 ]
 
 # Action area
 action_column = [
     [
-        sg.Text("D64 Output Folder"),
-        sg.In(folder, size=(39, 1), key="-OUTFOLD-", enable_events=True),
-        sg.FolderBrowse(
+        Sg.Text("D64 Output Folder"),
+        Sg.In(folder, size=(39, 1), key="-OUTFOLD-", enable_events=True),
+        Sg.FolderBrowse(
             "🗁",
             tooltip="Select target folder for created D64 files...",
-            font=("Arial,14"),
+            font="Arial,14",
         ),
     ],
-    [sg.Text("D64 Output Filename (Prefix | Filename | Postfix)")],
+    [Sg.Text("D64 Output Filename (Prefix | Filename | Postfix)")],
     [
-        sg.In(nicedprefix, size=(10, 1), key="-PREFIX-"),
-        sg.In(size=(32, 1), key="-RESULT-"),
-        sg.In(nicedpostfix, size=(10, 1), key="-POSTFIX-"),
-        sg.Text(".d64"),
+        Sg.In(nicedprefix, size=(10, 1), key="-PREFIX-"),
+        Sg.In(size=(32, 1), key="-RESULT-"),
+        Sg.In(nicedpostfix, size=(10, 1), key="-POSTFIX-"),
+        Sg.Text(".d64"),
     ],
-    [sg.Checkbox("Overwrite existing D64-files", default=True, key="-OVERWRITE-")],
+    [Sg.Checkbox("Overwrite existing D64-files", default=True, key="-OVERWRITE-")],
     [
-        sg.Button(
+        Sg.Button(
             "✔ NICE SELECTED!",
             key="-NICE-",
             size=(44, 2),
-            button_color=(sg.theme_background_color()),
+            button_color=(Sg.theme_background_color()),
             font=("Verdana", 12),
             disabled=True,
         ),
     ],
-    [sg.Text("")],
+    [Sg.Text("")],
     [
-        sg.Button(
+        Sg.Button(
             "🛈",
             size=(1, 1),
             key="-INFO-",
             font=("Arial", 18),
             border_width=0,
             tooltip="get D64nice.exe information...",
-            button_color=("white", sg.theme_background_color()),
+            button_color=("white", Sg.theme_background_color()),
         ),
-        sg.Multiline(
+        Sg.Multiline(
             size=(57, 6),
             key="-TOUT-",
             reroute_stdout=True,
@@ -142,23 +142,23 @@ action_column = [
             autoscroll=True,
         ),
     ],
-    [sg.Text("")],
+    [Sg.Text("")],
     [
-        sg.Text("Save output settings:"),
-        sg.Button("Save Output-File Post/Prefix", key="-PREFSAFE-"),
-        sg.Button("Save Output-Folder", key="-OUTSAFE-"),
+        Sg.Text("Save output settings:"),
+        Sg.Button("Save Output-File Post/Prefix", key="-PREFSAFE-"),
+        Sg.Button("Save Output-Folder", key="-OUTSAFE-"),
     ],
-    [sg.Text("")],
+    [Sg.Text("")],
     [
-        sg.Text(
+        Sg.Text(
             "D64niceGUI " + version + " - brought to you by",
             justification="center",
             size=(52, 1),
         )
     ],
-    [sg.Image(data=logo, size=(430, None))],
+    [Sg.Image(data=logo, size=(430, 80))],
     [
-        sg.Text(
+        Sg.Text(
             "© 2022 by Freeze of BLAZON - Idea: B4r4cud4 of BLAZON",
             justification="center",
             font=font,
@@ -167,35 +167,33 @@ action_column = [
     ],
 ]
 
-
 # Layout definition - 2 colums, left the file list, right the action block
 
 layout = [
     [
-        sg.Column(file_list_column),
-        sg.VSeperator(),
-        sg.Column(action_column),
+        Sg.Column(file_list_column),
+        Sg.VSeperator(),
+        Sg.Column(action_column),
     ]
 ]
 
 
 # check routine of d64nice exists with error output
 def niceexist():
-
-    nicefile = os.path.join(os.getcwd(), "d64nice.exe")
+    nicefiletocheck = os.path.join(os.getcwd(), "d64nice.exe")
 
     message = "Sorry, but it seems, that the D64nice.exe is missing...\n"
     message = message + "Please copy the d64nice.exe to the following folder:\n"
-    message = message + nicefile
+    message = message + nicefiletocheck
     message = (
-        message + "\nYou can download d64nice at https://csdb.dk/release/?id=182677"
+            message + "\nYou can download d64nice at https://csdb.dk/release/?id=182677"
     )
     message = (
-        message + "\n(for newer releases please use the search for 'd64nice' on csdb)"
+            message + "\n(for newer releases please use the search for 'd64nice' on csdb)"
     )
 
-    exist = exists(nicefile)
-    if (exist) == False:
+    exist = exists(nicefiletocheck)
+    if not exist:
         window["-TOUT-"].update(message)
 
     return exist
@@ -203,14 +201,13 @@ def niceexist():
 
 # call routine for d64nice.exe with extended error handling
 def callnice(filepath, result):
-
     if niceexist():
 
         if exists(result) == True and values["-OVERWRITE-"] == False:
             nicer = (
-                "[ERROR ⚠] target file "
-                + result
-                + " exists, overwrite not allowed - skipping file"
+                    "[ERROR ⚠] target file "
+                    + result
+                    + " exists, overwrite not allowed - skipping file"
             )
             window["-TOUT-"].print(nicer)
 
@@ -230,7 +227,7 @@ def callnice(filepath, result):
 
                 nicer = ""
 
-                if file_exists == False:
+                if not file_exists:
                     nicer = "[ERROR ⚠] D64nice was not able to create the target file - please try again or contact freeze_blz@gmx.at"
 
                 nicer = nicer + p.stdout
@@ -262,18 +259,18 @@ def callhelp():
             nicer = nicer.replace("when \\n", "when")
             nicer = nicer.replace("will \\n", "will")
             nicer = (
-                nicer
-                + "\n \nNotice: An existing Windows write protection can be removed but disk protections in the D64 file will be kept."
+                    nicer
+                    + "\n \nNotice: An existing Windows write protection can be removed but disk protections in the D64 file will be kept."
             )
             nicer = (
-                nicer
-                + "\n \nD64niceGUI "
-                + version
-                + " by Freeze of BLAZON, idea: B4r4cud4 of BLAZON"
+                    nicer
+                    + "\n \nD64niceGUI "
+                    + version
+                    + " by Freeze of BLAZON, idea: B4r4cud4 of BLAZON"
             )
             nicer = (
-                nicer
-                + "\n \nif you run into an error you cannot solve by yourself, feel free to contact me (via email "
+                    nicer
+                    + "\n \nif you run into an error you cannot solve by yourself, feel free to contact me (via email "
             )
             nicer = nicer + "at freeze_blz@gmx.at.)\n \n"
 
@@ -293,10 +290,10 @@ def callhelp():
 def listupdate():
     if len(values["-FILE LIST-"]) == 0:
         window["-NICE-"].update(disabled=True)
-        window["-NICE-"].update(button_color=sg.theme_background_color())
+        window["-NICE-"].update(button_color=Sg.theme_background_color())
     else:
         window["-NICE-"].update(disabled=False)
-        window["-NICE-"].update(button_color=("green"))
+        window["-NICE-"].update(button_color="green")
 
     if len(values["-FILE LIST-"]) == 1:
         window["-RESULT-"].update(file)
@@ -318,20 +315,19 @@ def nicefile(items):
 
         filepath = os.path.join(values["-FOLDER-"], items[0])
 
-        result = result = (
-            values["-OUTFOLD-"]
-            + "/"
-            + values["-PREFIX-"]
-            + values["-RESULT-"]
-            + values["-POSTFIX-"]
-            + ".d64"
+        result = (
+                values["-OUTFOLD-"]
+                + "/"
+                + values["-PREFIX-"]
+                + values["-RESULT-"]
+                + values["-POSTFIX-"]
+                + ".d64"
         )
 
         callnice(filepath, result)
 
     else:
         for x in range(len(items)):
-
             item = items[x]
 
             filepath = os.path.join(values["-FOLDER-"], item)
@@ -341,13 +337,13 @@ def nicefile(items):
             window.refresh()
             time.sleep(0.2)
 
-            result = result = (
-                values["-OUTFOLD-"]
-                + "/"
-                + values["-PREFIX-"]
-                + item
-                + values["-POSTFIX-"]
-                + ".d64"
+            result = (
+                    values["-OUTFOLD-"]
+                    + "/"
+                    + values["-PREFIX-"]
+                    + item
+                    + values["-POSTFIX-"]
+                    + ".d64"
             )
 
             callnice(filepath, result)
@@ -359,12 +355,11 @@ def nicefile(items):
 
 
 # Get list of files in folder, if refresh is set, then the log-info on the window is cleared
-def readfiles(folder, refresh):
-
+def readfiles(folder2read, refresh):
     # items= window["-FILE LIST-"].get()
 
     try:
-        file_list = os.listdir(folder)
+        file_list = os.listdir(folder2read)
 
     except:
         logging.exception("message")
@@ -374,21 +369,21 @@ def readfiles(folder, refresh):
     fnames = [
         f
         for f in file_list
-        if exists(os.path.join(folder, f)) and f.lower().endswith((".d64"))
+        if exists(os.path.join(folder2read, f)) and f.lower().endswith(".d64")
     ]
 
     window["-FILE LIST-"].update(fnames)
     # window["-FILE LIST-"].update(set_to_index=items)
-    sg.user_settings_set_entry("lastpath", folder)
+    Sg.user_settings_set_entry("lastpath", folder2read)
 
-    if refresh == True:
+    if refresh:
         window["-TOUT-"].update("")
 
 
 a = 0
 
 # SHOW THE WINDOW TO THE WORLD....
-window = sg.Window(
+window = Sg.Window(
     "D64niceGUI - extending D64nice commandline tool from Logiker / VCC",
     layout,
     finalize=True,
@@ -397,7 +392,7 @@ window = sg.Window(
 # read the defined folder once automatically into the file list
 if a == 0:
     a = 1
-    path = sg.user_settings_get_entry("lastpath", os.getcwd())
+    path = Sg.user_settings_get_entry("lastpath", os.getcwd())
     logging.debug(path)
 
     if path == "":
@@ -414,8 +409,7 @@ while True:
     event, values = window.read()
 
     # Window is closed
-    if event == "Exit" or event == sg.WIN_CLOSED:
-
+    if event == "Exit" or event == Sg.WIN_CLOSED:
         break
 
     # Info button is clocked
@@ -435,7 +429,7 @@ while True:
             window["-OUTFOLD-"].update(folder)
             window.refresh()
 
-            sg.user_settings_set_entry("outfolder", folder)
+            Sg.user_settings_set_entry("outfolder", folder)
         except:
             logging.exception("message")
             pass
@@ -443,8 +437,8 @@ while True:
     # Safe postfix and Prefix Values
     if event == "-PREFSAFE-":
         try:
-            sg.user_settings_set_entry("nicedprefix", values["-PREFIX-"])
-            sg.user_settings_set_entry("nicedpostfix", values["-POSTFIX-"])
+            Sg.user_settings_set_entry("nicedprefix", values["-PREFIX-"])
+            Sg.user_settings_set_entry("nicedpostfix", values["-POSTFIX-"])
 
         except:
             logging.exception("message")
@@ -452,7 +446,6 @@ while True:
 
     # Call NICE EXE helper routine with selected values from file List
     if event == "-NICE-":
-
         nicefile(values["-FILE LIST-"])
 
     # update output path to windows style
@@ -471,7 +464,7 @@ while True:
         else:
             window["-FOLDER-"].update(infolder)
             window["-NICE-"].update(disabled=True)
-            window["-NICE-"].update(button_color=sg.theme_background_color())
+            window["-NICE-"].update(button_color=Sg.theme_background_color())
             readfiles(infolder, True)
             lastfolder = infolder
 
