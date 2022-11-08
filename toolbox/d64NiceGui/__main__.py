@@ -38,7 +38,7 @@ logging.basicConfig(
     encoding="utf-8",
     level=logging.INFO,
 )
-version = "V 1.1"
+version = "V 1.1.03"
 
 # Console output...
 os.system("cls")
@@ -182,14 +182,12 @@ layout = [
 def niceexist():
     nicefiletocheck = os.path.join(os.getcwd(), "d64nice.exe")
 
-    message = "Sorry, but it seems, that the D64nice.exe is missing...\n"
-    message = message + "Please copy the d64nice.exe to the following folder:\n"
-    message = message + nicefiletocheck
     message = (
-            message + "\nYou can download d64nice at https://csdb.dk/release/?id=182677"
-    )
-    message = (
-            message + "\n(for newer releases please use the search for 'd64nice' on csdb)"
+        "Sorry, but it seems, that the D64nice.exe is missing...\n"
+        "Please copy the d64nice.exe to the following folder:\n\n"
+        f"{nicefiletocheck}\n\n"
+        "You can download d64nice at https://csdb.dk/release/?id=182677\n"
+        "(for newer releases please use the search for 'd64nice' on csdb)"
     )
 
     exist = exists(nicefiletocheck)
