@@ -1,8 +1,8 @@
-D64niceGUI is an UI for the existing commandlinetool D64nice
+D64niceGUI is an UI for the existing commandline tool D64nice
 
 D64nice is used for beautifying Dirart by replacing Pipe and Line chars with signs, which exists in the lower and upper PETSCII ROM Char of the C64
 
-D64niceGui is an Windows UI für the commandline tool, which makes it easier to fullfill tasks like:
+D64niceGui is an Windows UI für the commandline tool, which makes it easier to fulfill tasks like:
 
 - Batch calls
 - Error handling
@@ -15,7 +15,7 @@ Idea: B4r4cud4 of BLAZON
 Help: Logiker of Vintage Computing Carinthia
 Code: Freeze of BLAZON
 
-Getting startet:
+Getting started:
 
 - Download d64nice.exe from https://csdb.dk/release/?id=182677 (or try search on https://csdb.dk)
 - Download d64niceGUI.exe
@@ -39,7 +39,7 @@ Hint:
   - if the output folder is not the input folder, the selection will be kept
 - settings will be stored in the d64niceGUI.json file
 
-- a logfile is also created where you can get further informations. Please provide this file with any bug report!
+- a logfile is also created where you can get further information. Please provide this file with any bug report!
 
 ## Development
 

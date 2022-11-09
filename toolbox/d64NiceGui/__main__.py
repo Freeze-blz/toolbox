@@ -226,7 +226,10 @@ def callnice(filepath, result):
                 nicer = ""
 
                 if not file_exists:
-                    nicer = "[ERROR ⚠] D64nice was not able to create the target file - please try again or contact freeze_blz@gmx.at"
+                    nicer = (
+                        "[ERROR ⚠] D64nice was not able to create the target file"
+                        "- please try again or contact freeze_blz@gmx.at"
+                    )
 
                 nicer = nicer + p.stdout
                 nicer = nicer + " " + result + " " + p.stderr
@@ -258,7 +261,10 @@ def callhelp():
             nicer = nicer.replace("will \\n", "will")
             nicer = (
                     nicer
-                    + "\n \nNotice: An existing Windows write protection can be removed but disk protections in the D64 file will be kept."
+                    + (
+                        "\n \nNotice: An existing Windows write protection can be removed but disk protections in the"
+                        "D64 file will be kept."
+                    )
             )
             nicer = (
                     nicer
