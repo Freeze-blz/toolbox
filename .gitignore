@@ -162,3 +162,6 @@ cython_debug/
 # ignore settings and log files
 d64NiceGui.log
 D64nicerGUI.json
+
+# ignore d64nice.exe
+/toolbox/d64NiceGui/d64nice.exe

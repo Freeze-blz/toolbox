@@ -38,7 +38,7 @@ logging.basicConfig(
     encoding="utf-8",
     level=logging.INFO,
 )
-version = "V 1.1.03"
+version = "V 1.1.04"
 
 # Console output...
 os.system("cls")
@@ -48,7 +48,6 @@ print("D64nicerGUI brought to you by BLAZON!")
 configfile = os.getcwd() + "d64nicerGUI.json"
 
 Sg.user_settings_filename("D64nicerGUI.json", os.getcwd())
-Sg.user_settings_filename("D64nicerGUI.json")
 
 path = Sg.user_settings_get_entry("lastpath", os.getcwd())
 path = path.replace("/", "\\")
@@ -64,6 +63,7 @@ nicedpostfix = Sg.user_settings_get_entry("nicedpostfix", "")
 Sg.theme("DarkBlue4")
 logo = b"iVBORw0KGgoAAAANSUhEUgAAAUEAAABOCAYAAAC+L6RQAAAEAElEQVR4nO3d0ZKbMBBEUZza//9l8mATEy/YgKWZ1vQ9T6nKbiwkTSMQONMEAAAAAAAAAAAAAAAAAAAAAAXdshtQzTzP8/Ln2+1G/wLifnr9w+swmKaagfAaeK/HDEBfkxB0KH6HYwQcnQ5BhzBwOEYAd29D0CEMHI4RwL5/IUgYAHD0J7sBAJCJEARgjRAEYI0QBGCt28PSZ83zPB954LjiQ9cA8qSF4NXd6OX3ljD8Zlc7IlCVdt3PvNWy1TdKx6Lm6lza6tMrbx+1mstRY9zjDaurfRAegq0OvGUY4re94nz39/isV785vKb6ydU+CA3BHhOAMIyz9eUQ9PexYovup9e6cHT0y0xk7gl+az3oFGZ/nHyOye4XwvDuXT+U2x1eNliy2+Fifrg9ZLcn2rtjzg7ANaW2ZNrqh3IhOE0EYYZ1GGa3RYFi6Ci2KcNrP5QMwWkiCLM49fvecSqHjXLbIq37If2eYM+CUSjI7M/PoNDvLVwJjCu/E91XKuOjcishLQSjBkFlwN1E35BvWTRXH9o/04bsOUldPPsg5XI448wX+XmIpTC+Zx5CVwkfhX5TEB6CKhMA2NLz1U3FuU8QFt4YecVg16QwrkfaoBiAuAsNweyJoFAw0OX6BR7udWGzEkQ9oxRvxeCsxC4ERykcxIrYEYam9OcEcc43RVdpRUL4oBXLEBzpGSmKvT+3HeEtI9VEa5YhOALCbx99g5YIQTEUeKxvVoGMVQ2EoAgK6hj6Ca3Z7Q4Di97PBbreYxsNIYhhsApED1wOJ6Owc7i+HYLfWAliCGonC7X24DpWgkkiioiVzLaIVSB9Pw5WgpDHqgs9EYKwEnUvkOAeByEIaaphwuVuHYQgbLAjjC2EIGSprgKPGr39LghBWGAViD2WIchk1zfCKop5VINlCMJL5ipwhDB3RwhCDsGBSHYhyCWMF4Vvihkh1J3rwi4EoW2EwEAthCDKiroXWGU16MoqBJ2X/COoHhTVj29UfItMR3uTnjDuL3pH+MjnTZP3/+qmymYlyMTT5rRKUjtW99oIXQmqDT5qynou8OhqcJqetZAdQNmfr8DiclhtoJdLIk4Kdy37YRnrrDE/O66ZYahWF2uRbSsfgsoDjfYUTixXTnDrn4+Ys1ttjK4VlbEqfU9QOQC5QX6nUAitqY8tVyH/KxuCypNwoV4suE51bAnA30qGoOLk26NaLBGqF+Mytgrju7Sjep9fUS4EFSbcWc5BWN38kDm+S/gRgNvKhKDKGfcbo7f/DLeCzApCVn+fDb87XCU4Xh+VYOLWsw7C3uPLPDpuqBCsEnjv7D03dnYy7/WVwsog+/Mz9T7ZEX4AAAAAAAAAAAAAAAAAAABPfwH9v9xy0Ce9kgAAAABJRU5ErkJggg=="
 font = ("Verdana", 8)
+buttonicon=("Arial,14")
 
 # file list definition
 file_list_column = [
@@ -79,7 +79,14 @@ file_list_column = [
             "🗁",
             enable_events=True,
             tooltip="Select source folder for reading D64 files...",
-            font="Arial,14",
+            font=buttonicon,
+        ),
+        Sg.Button(
+            "⟳",
+            enable_events=True,
+            tooltip="Reload source folder",
+            font=buttonicon,
+            key="-RELOAD-",
         ),
     ],
     [
@@ -87,7 +94,7 @@ file_list_column = [
             values=[],
             enable_events=True,
             select_mode="extended",
-            size=(56, 27),
+            size=(63, 27),
             key="-FILE LIST-",
         )
     ],
@@ -102,7 +109,7 @@ action_column = [
         Sg.FolderBrowse(
             "🗁",
             tooltip="Select target folder for created D64 files...",
-            font="Arial,14",
+            font=buttonicon,
         ),
     ],
     [Sg.Text("D64 Output Filename (Prefix | Filename | Postfix)")],
@@ -204,8 +211,8 @@ def callnice(filepath, result):
         if exists(result) == True and values["-OVERWRITE-"] == False:
             nicer = (
                     "[ERROR ⚠] target file "
-                    + result
-                    + " exists, overwrite not allowed - skipping file"
+                    f"{result} "
+                    "exists, overwrite not allowed - skipping file"
             )
             window["-TOUT-"].print(nicer)
 
@@ -262,8 +269,8 @@ def callhelp():
             nicer = (
                     nicer
                     + (
-                        "\n \nNotice: An existing Windows write protection can be removed but disk protections in the"
-                        "D64 file will be kept."
+                        "\n \nNotice: An existing Windows write protection can be removed"
+                        "but disk protections in the D64 file will be kept."
                     )
             )
             nicer = (
@@ -274,7 +281,10 @@ def callhelp():
             )
             nicer = (
                     nicer
-                    + "\n \nif you run into an error you cannot solve by yourself, feel free to contact me (via email "
+                    + (
+                        "\n \nif you run into an error you cannot solve by yourself, "
+                        "feel free to contact me (via email "
+                    )
             )
             nicer = nicer + "at freeze_blz@gmx.at.)\n \n"
 
@@ -360,7 +370,9 @@ def nicefile(items):
 
 # Get list of files in folder, if refresh is set, then the log-info on the window is cleared
 def readfiles(folder2read, refresh):
-    # items= window["-FILE LIST-"].get()
+    logging.debug("readfiles")
+    logging.debug(folder2read)
+    logging.debug(refresh)
 
     try:
         file_list = os.listdir(folder2read)
@@ -412,6 +424,7 @@ if a == 0:
 while True:
     event, values = window.read()
 
+    logging.debug (event)
     # Window is closed
     if event == "Exit" or event == Sg.WIN_CLOSED:
         break
@@ -459,11 +472,13 @@ while True:
         window["-OUTFOLD-"].update(outfolder)
 
     # Event raised on selection of a new source folder
-    if event == "-FOLDER-":
+    if event == "-FOLDER-" or event == "-RELOAD-":
+
         infolder = values["-FOLDER-"]
         infolder = infolder.replace("/", "\\")
 
-        if lastfolder == infolder:
+
+        if event == "-FOLDER-" and lastfolder == infolder:
             lastfolder = infolder
         else:
             window["-FOLDER-"].update(infolder)
