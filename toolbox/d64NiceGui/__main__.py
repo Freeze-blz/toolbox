@@ -31,6 +31,8 @@ import time
 from easyprocess import EasyProcess
 from pathlib import Path
 from os.path import exists
+import win32con
+import win32api
 
 logging.basicConfig(
     format="%(asctime)s %(message)s",
@@ -38,7 +40,7 @@ logging.basicConfig(
     encoding="utf-8",
     level=logging.INFO,
 )
-version = "V 1.1.04"
+version = "V 1.1.05"
 
 # Console output...
 os.system("cls")
@@ -63,7 +65,7 @@ nicedpostfix = Sg.user_settings_get_entry("nicedpostfix", "")
 Sg.theme("DarkBlue4")
 logo = b"iVBORw0KGgoAAAANSUhEUgAAAUEAAABOCAYAAAC+L6RQAAAEAElEQVR4nO3d0ZKbMBBEUZza//9l8mATEy/YgKWZ1vQ9T6nKbiwkTSMQONMEAAAAAAAAAAAAAAAAAAAAAAXdshtQzTzP8/Ln2+1G/wLifnr9w+swmKaagfAaeK/HDEBfkxB0KH6HYwQcnQ5BhzBwOEYAd29D0CEMHI4RwL5/IUgYAHD0J7sBAJCJEARgjRAEYI0QBGCt28PSZ83zPB954LjiQ9cA8qSF4NXd6OX3ljD8Zlc7IlCVdt3PvNWy1TdKx6Lm6lza6tMrbx+1mstRY9zjDaurfRAegq0OvGUY4re94nz39/isV785vKb6ydU+CA3BHhOAMIyz9eUQ9PexYovup9e6cHT0y0xk7gl+az3oFGZ/nHyOye4XwvDuXT+U2x1eNliy2+Fifrg9ZLcn2rtjzg7ANaW2ZNrqh3IhOE0EYYZ1GGa3RYFi6Ci2KcNrP5QMwWkiCLM49fvecSqHjXLbIq37If2eYM+CUSjI7M/PoNDvLVwJjCu/E91XKuOjcishLQSjBkFlwN1E35BvWTRXH9o/04bsOUldPPsg5XI448wX+XmIpTC+Zx5CVwkfhX5TEB6CKhMA2NLz1U3FuU8QFt4YecVg16QwrkfaoBiAuAsNweyJoFAw0OX6BR7udWGzEkQ9oxRvxeCsxC4ERykcxIrYEYam9OcEcc43RVdpRUL4oBXLEBzpGSmKvT+3HeEtI9VEa5YhOALCbx99g5YIQTEUeKxvVoGMVQ2EoAgK6hj6Ca3Z7Q4Di97PBbreYxsNIYhhsApED1wOJ6Owc7i+HYLfWAliCGonC7X24DpWgkkiioiVzLaIVSB9Pw5WgpDHqgs9EYKwEnUvkOAeByEIaaphwuVuHYQgbLAjjC2EIGSprgKPGr39LghBWGAViD2WIchk1zfCKop5VINlCMJL5ipwhDB3RwhCDsGBSHYhyCWMF4Vvihkh1J3rwi4EoW2EwEAthCDKiroXWGU16MoqBJ2X/COoHhTVj29UfItMR3uTnjDuL3pH+MjnTZP3/+qmymYlyMTT5rRKUjtW99oIXQmqDT5qynou8OhqcJqetZAdQNmfr8DiclhtoJdLIk4Kdy37YRnrrDE/O66ZYahWF2uRbSsfgsoDjfYUTixXTnDrn4+Ys1ttjK4VlbEqfU9QOQC5QX6nUAitqY8tVyH/KxuCypNwoV4suE51bAnA30qGoOLk26NaLBGqF+Mytgrju7Sjep9fUS4EFSbcWc5BWN38kDm+S/gRgNvKhKDKGfcbo7f/DLeCzApCVn+fDb87XCU4Xh+VYOLWsw7C3uPLPDpuqBCsEnjv7D03dnYy7/WVwsog+/Mz9T7ZEX4AAAAAAAAAAAAAAAAAAABPfwH9v9xy0Ce9kgAAAABJRU5ErkJggg=="
 font = ("Verdana", 8)
-buttonicon=("Arial,14")
+buttonicon = ("Arial,14")
 
 # file list definition
 file_list_column = [
@@ -114,9 +116,9 @@ action_column = [
     ],
     [Sg.Text("D64 Output Filename (Prefix | Filename | Postfix)")],
     [
-        Sg.In(nicedprefix, size=(10, 1), key="-PREFIX-"),
-        Sg.In(size=(32, 1), key="-RESULT-"),
-        Sg.In(nicedpostfix, size=(10, 1), key="-POSTFIX-"),
+        Sg.In(nicedprefix, size=(10, 1), key="-PREFIX-", enable_events=True),
+        Sg.In(size=(32, 1), key="-RESULT-", enable_events=True),
+        Sg.In(nicedpostfix, size=(10, 1), key="-POSTFIX-", enable_events=True),
         Sg.Text(".d64"),
     ],
     [Sg.Checkbox("Overwrite existing D64-files", default=True, key="-OVERWRITE-")],
@@ -208,50 +210,71 @@ def niceexist():
 def callnice(filepath, result):
     if niceexist():
 
-        if exists(result) == True and values["-OVERWRITE-"] == False:
-            nicer = (
-                    "[ERROR ⚠] target file "
+        if exists(result) == True:
+            if values["-OVERWRITE-"] == False:
+                nicer = (
+                    "[⚠ ERROR] target file "
                     f"{result} "
                     "exists, overwrite not allowed - skipping file"
-            )
-            window["-TOUT-"].print(nicer)
-
-            logging.info(nicer)
-
-            window.refresh()
-
-        else:
-
-            try:
-                p = EasyProcess('d64nice.exe "' + filepath + '" "' + result + '"').call(
-                    timeout=2
                 )
-                logging.debug(p)
-
-                file_exists = exists(result)
-
-                nicer = ""
-
-                if not file_exists:
-                    nicer = (
-                        "[ERROR ⚠] D64nice was not able to create the target file"
-                        "- please try again or contact freeze_blz@gmx.at"
-                    )
-
-                nicer = nicer + p.stdout
-                nicer = nicer + " " + result + " " + p.stderr
 
                 window["-TOUT-"].print(nicer)
 
                 logging.info(nicer)
 
                 window.refresh()
-            except:
-                logging.exception("message")
-                pass
+                return
+            else:
+                try:
+                    attr = win32api.GetFileAttributes(result)
+                    if attr == 33:
+                        nicer = (
+                            "[⚠ ERROR] target file "
+                            f"{result} "
+                            "is read only - overwrite not possible - skipping file"
+                        )
+                        window["-TOUT-"].print(nicer)
+
+                        logging.info(nicer)
+
+                        window.refresh()
+                        return
+                except:
+                    logging.exception("message")
+                    pass
+
+        try:
+            print ("😎 start NICING "+ filepath +"\r")
+            p = EasyProcess('d64nice.exe "' + filepath + '" "' + result + '"').call(
+                timeout=2
+            )
+            logging.debug(p)
+
+            file_exists = exists(result)
+
+            nicer = ""
+
+            if not file_exists:
+                nicer = (
+                    "[ERROR ⚠] D64nice was not able to create the target file"
+                    "- please try again or contact freeze_blz@gmx.at"
+                )
+
+            nicer = nicer + p.stdout
+            nicer = nicer + " " + result + " " + p.stderr
+
+            window["-TOUT-"].print(nicer)
+
+            logging.info(nicer)
+
+            window.refresh()
+        except:
+            logging.exception("message")
+            pass
+
+    # call routine for help / information output
 
 
-# call routine for help / information output
 def callhelp():
     if niceexist():
         try:
@@ -269,8 +292,9 @@ def callhelp():
             nicer = (
                     nicer
                     + (
-                        "\n \nNotice: An existing Windows write protection can be removed"
-                        "but disk protections in the D64 file will be kept."
+                        "\n \nNotice: An existing Windows write protection of an existing target file"
+                        "stop d64nice from processing and you will get an error output. "
+                        "A floppy disk protections in the D64 file will be removed."
                     )
             )
             nicer = (
@@ -396,6 +420,21 @@ def readfiles(folder2read, refresh):
         window["-TOUT-"].update("")
 
 
+# limit input size of given UI Element
+def inputsize(element, size):
+    if len(values[element]) > size:
+        window.Element(element).Update(values[element][:-1])
+
+
+def inputspecialchars(inputString):
+    cleanedString = inputString
+    cleanedString = cleanedString.replace("/", "")
+    cleanedString = cleanedString.replace("*", "")
+    cleanedString = cleanedString.replace("?", "")
+    cleanedString = cleanedString.replace("\\", "")
+    return cleanedString
+
+
 a = 0
 
 # SHOW THE WINDOW TO THE WORLD....
@@ -424,7 +463,7 @@ if a == 0:
 while True:
     event, values = window.read()
 
-    logging.debug (event)
+    logging.debug(event)
     # Window is closed
     if event == "Exit" or event == Sg.WIN_CLOSED:
         break
@@ -477,7 +516,6 @@ while True:
         infolder = values["-FOLDER-"]
         infolder = infolder.replace("/", "\\")
 
-
         if event == "-FOLDER-" and lastfolder == infolder:
             lastfolder = infolder
         else:
@@ -486,6 +524,15 @@ while True:
             window["-NICE-"].update(button_color=Sg.theme_background_color())
             readfiles(infolder, True)
             lastfolder = infolder
+
+    if event == "-PREFIX-" or event == "-POSTFIX-":
+        window.Element(event).update(inputspecialchars(values[event]))
+        inputsize(event, 10)
+
+    if event == "-RESULT-":
+        window.Element(event).update(inputspecialchars(values[event]))
+        inputsize(event, 50)
+
 
     # A file was chosen from the listbox
     elif event == "-FILE LIST-":
