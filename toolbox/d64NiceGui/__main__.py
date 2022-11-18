@@ -31,7 +31,6 @@ import time
 from easyprocess import EasyProcess
 from pathlib import Path
 from os.path import exists
-import win32con
 import win32api
 
 logging.basicConfig(
@@ -292,7 +291,7 @@ def callhelp():
             nicer = (
                     nicer
                     + (
-                        "\n \nNotice: An existing Windows write protection of an existing target file"
+                        "\n \nNotice: An existing Windows write protection of an existing target file "
                         "stop d64nice from processing and you will get an error output. "
                         "A floppy disk protections in the D64 file will be removed."
                     )
