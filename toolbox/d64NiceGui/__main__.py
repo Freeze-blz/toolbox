@@ -40,6 +40,7 @@ logging.basicConfig(
     level=logging.INFO,
 )
 version = "V 1.1.05"
+release = "Released at VCC $1C 19/11/22"
 
 # Console output...
 os.system("cls")
@@ -64,7 +65,7 @@ nicedpostfix = Sg.user_settings_get_entry("nicedpostfix", "")
 Sg.theme("DarkBlue4")
 logo = b"iVBORw0KGgoAAAANSUhEUgAAAUEAAABOCAYAAAC+L6RQAAAEAElEQVR4nO3d0ZKbMBBEUZza//9l8mATEy/YgKWZ1vQ9T6nKbiwkTSMQONMEAAAAAAAAAAAAAAAAAAAAAAXdshtQzTzP8/Ln2+1G/wLifnr9w+swmKaagfAaeK/HDEBfkxB0KH6HYwQcnQ5BhzBwOEYAd29D0CEMHI4RwL5/IUgYAHD0J7sBAJCJEARgjRAEYI0QBGCt28PSZ83zPB954LjiQ9cA8qSF4NXd6OX3ljD8Zlc7IlCVdt3PvNWy1TdKx6Lm6lza6tMrbx+1mstRY9zjDaurfRAegq0OvGUY4re94nz39/isV785vKb6ydU+CA3BHhOAMIyz9eUQ9PexYovup9e6cHT0y0xk7gl+az3oFGZ/nHyOye4XwvDuXT+U2x1eNliy2+Fifrg9ZLcn2rtjzg7ANaW2ZNrqh3IhOE0EYYZ1GGa3RYFi6Ci2KcNrP5QMwWkiCLM49fvecSqHjXLbIq37If2eYM+CUSjI7M/PoNDvLVwJjCu/E91XKuOjcishLQSjBkFlwN1E35BvWTRXH9o/04bsOUldPPsg5XI448wX+XmIpTC+Zx5CVwkfhX5TEB6CKhMA2NLz1U3FuU8QFt4YecVg16QwrkfaoBiAuAsNweyJoFAw0OX6BR7udWGzEkQ9oxRvxeCsxC4ERykcxIrYEYam9OcEcc43RVdpRUL4oBXLEBzpGSmKvT+3HeEtI9VEa5YhOALCbx99g5YIQTEUeKxvVoGMVQ2EoAgK6hj6Ca3Z7Q4Di97PBbreYxsNIYhhsApED1wOJ6Owc7i+HYLfWAliCGonC7X24DpWgkkiioiVzLaIVSB9Pw5WgpDHqgs9EYKwEnUvkOAeByEIaaphwuVuHYQgbLAjjC2EIGSprgKPGr39LghBWGAViD2WIchk1zfCKop5VINlCMJL5ipwhDB3RwhCDsGBSHYhyCWMF4Vvihkh1J3rwi4EoW2EwEAthCDKiroXWGU16MoqBJ2X/COoHhTVj29UfItMR3uTnjDuL3pH+MjnTZP3/+qmymYlyMTT5rRKUjtW99oIXQmqDT5qynou8OhqcJqetZAdQNmfr8DiclhtoJdLIk4Kdy37YRnrrDE/O66ZYahWF2uRbSsfgsoDjfYUTixXTnDrn4+Ys1ttjK4VlbEqfU9QOQC5QX6nUAitqY8tVyH/KxuCypNwoV4suE51bAnA30qGoOLk26NaLBGqF+Mytgrju7Sjep9fUS4EFSbcWc5BWN38kDm+S/gRgNvKhKDKGfcbo7f/DLeCzApCVn+fDb87XCU4Xh+VYOLWsw7C3uPLPDpuqBCsEnjv7D03dnYy7/WVwsog+/Mz9T7ZEX4AAAAAAAAAAAAAAAAAAABPfwH9v9xy0Ce9kgAAAABJRU5ErkJggg=="
 font = ("Verdana", 8)
-buttonicon = ("Arial,14")
+buttonicon = ("Courier,14,")
 
 # file list definition
 file_list_column = [
@@ -77,8 +78,7 @@ file_list_column = [
             key="-FOLDER-",
         ),
         Sg.FolderBrowse(
-            "🗁",
-            enable_events=True,
+            "📂",
             tooltip="Select source folder for reading D64 files...",
             font=buttonicon,
         ),
@@ -95,8 +95,9 @@ file_list_column = [
             values=[],
             enable_events=True,
             select_mode="extended",
-            size=(63, 27),
+            size=(63, 28),
             key="-FILE LIST-",
+            highlight_background_color="green"
         )
     ],
     [Sg.Text("🛈 You can select multiple files using CTRL or SHIFT ;-)", font=font)],
@@ -106,9 +107,9 @@ file_list_column = [
 action_column = [
     [
         Sg.Text("D64 Output Folder"),
-        Sg.In(folder, size=(39, 1), key="-OUTFOLD-", enable_events=True),
+        Sg.In(folder, size=(39, 1), key="-OUTFOLD-"),
         Sg.FolderBrowse(
-            "🗁",
+            "📂",
             tooltip="Select target folder for created D64 files...",
             font=buttonicon,
         ),
@@ -120,7 +121,7 @@ action_column = [
         Sg.In(nicedpostfix, size=(10, 1), key="-POSTFIX-", enable_events=True),
         Sg.Text(".d64"),
     ],
-    [Sg.Checkbox("Overwrite existing D64-files", default=True, key="-OVERWRITE-")],
+    [Sg.Checkbox("Overwrite existing D64-files", default=True, key="-OVERWRITE-",)],
     [
         Sg.Button(
             "✔ NICE SELECTED!",
@@ -143,11 +144,12 @@ action_column = [
             button_color=("white", Sg.theme_background_color()),
         ),
         Sg.Multiline(
-            size=(57, 6),
+            size=(50, 6),
             key="-TOUT-",
             reroute_stdout=True,
             border_width=0,
             autoscroll=True,
+            font="Verdana, 11"
         ),
     ],
     [Sg.Text("")],
@@ -173,6 +175,14 @@ action_column = [
             size=(61, 1),
         )
     ],
+    [
+        Sg.Text(
+            release,
+            justification="center",
+            font=font,
+            size=(61, 1),
+        )
+    ],
 ]
 
 # Layout definition - 2 colums, left the file list, right the action block
@@ -191,7 +201,7 @@ def niceexist():
     nicefiletocheck = os.path.join(os.getcwd(), "d64nice.exe")
 
     message = (
-        "Sorry, but it seems, that the D64nice.exe is missing...\n"
+        "🤔 Sorry, but it seems, that the D64nice.exe is missing...\n"
         "Please copy the d64nice.exe to the following folder:\n\n"
         f"{nicefiletocheck}\n\n"
         "You can download d64nice at https://csdb.dk/release/?id=182677\n"
@@ -212,7 +222,7 @@ def callnice(filepath, result):
         if exists(result) == True:
             if values["-OVERWRITE-"] == False:
                 nicer = (
-                    "[⚠ ERROR] target file "
+                    "⚠ ERROR: target file "
                     f"{result} "
                     "exists, overwrite not allowed - skipping file"
                 )
@@ -228,7 +238,7 @@ def callnice(filepath, result):
                     attr = win32api.GetFileAttributes(result)
                     if attr == 33:
                         nicer = (
-                            "[⚠ ERROR] target file "
+                            "⚠ ERROR: target file "
                             f"{result} "
                             "is read only - overwrite not possible - skipping file"
                         )
@@ -288,19 +298,21 @@ def callhelp():
             nicer = nicer.replace("long minus", "line")
             nicer = nicer.replace("when \\n", "when")
             nicer = nicer.replace("will \\n", "will")
+            nicer = nicer.replace("((", "(")
+
             nicer = (
                     nicer
                     + (
                         "\n \nNotice: An existing Windows write protection of an existing target file "
                         "stop d64nice from processing and you will get an error output. "
-                        "A floppy disk protections in the D64 file will be ignored."
+                        "A floppy disk protection in the D64 file will be ignored."
                     )
             )
             nicer = (
                     nicer
                     + "\n \nD64niceGUI "
                     + version
-                    + " by Freeze of BLAZON, idea: B4r4cud4 of BLAZON"
+                    + "\n\nCredits:\nCode and logo by Freeze of BLAZON\nIdea: B4r4cud4 of BLAZON\nHelp: B4r4cuda of BLAZON and Logiker of VCC"
             )
             nicer = (
                     nicer
@@ -531,7 +543,6 @@ while True:
     if event == "-RESULT-":
         window.Element(event).update(inputspecialchars(values[event]))
         inputsize(event, 50)
-
 
     # A file was chosen from the listbox
     elif event == "-FILE LIST-":
