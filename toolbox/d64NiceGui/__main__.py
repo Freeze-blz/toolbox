@@ -293,7 +293,7 @@ def callhelp():
                     + (
                         "\n \nNotice: An existing Windows write protection of an existing target file "
                         "stop d64nice from processing and you will get an error output. "
-                        "A floppy disk protections in the D64 file will be removed."
+                        "A floppy disk protections in the D64 file will be ignored."
                     )
             )
             nicer = (
