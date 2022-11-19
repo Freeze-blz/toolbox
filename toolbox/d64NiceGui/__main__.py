@@ -39,7 +39,7 @@ logging.basicConfig(
     encoding="utf-8",
     level=logging.INFO,
 )
-version = "V 1.1.05"
+version = "V 1.1.5"
 release = "Released at VCC $1C 19/11/22"
 
 # Console output...
@@ -312,7 +312,7 @@ def callhelp():
                     nicer
                     + "\n \nD64niceGUI "
                     + version
-                    + "\n\nCredits:\nCode and logo by Freeze of BLAZON\nIdea: B4r4cud4 of BLAZON\nHelp: B4r4cuda of BLAZON and Logiker of VCC"
+                    + "\n\nCredits:\nCode and logo by Freeze of BLAZON\nIdea: B4r4cud4 of BLAZON\nHelp: B4r4cud4 of BLAZON and Logiker of VCC"
             )
             nicer = (
                     nicer
